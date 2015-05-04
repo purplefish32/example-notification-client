@@ -9,16 +9,43 @@
     </div>
     <script>
         $(function() {
+
+            var appID = "app";
+
+            function checkAppKey(key) {
+                if (key === null || key === undefined) {
+                    console.log('Warning', 'You must pass your app key.');
+                }
+            }
+
+            var channels = [ ];
+
+                
+            channels.push("notifications");
+
+                
+            var socket = io.connect(
+                'http://localhost:3000/' + appID,
+                {
+                    query: {
+                        ns: appID,
+                        channels: channels
+                    }
+                }
+            );
+
+
+
             // socket.io specific code
-            var socket = io.connect('http://localhost:3000');
+            //var socket = io.connect('http://localhost:3000/app');
           
             socket.on('connect', function () {
               console.log('connect');
             });
 
             socket.on('notification', function (data) {
-                //console.log('notification from server');
-                console.log('notification ' + data.message + data.title + data.type);
+                console.log('notification from server');
+                //console.log('notification ' + data.message + data.title + data.type);
             });
 
             $('body').on('click', '#tButton', function() {
